@@ -6151,6 +6151,7 @@ void * monitor_AWS_Aurora_thread_HG(void *arg) {
 			"(REPLICA_LAG_IN_MILLISECONDS >= 0 AND REPLICA_LAG_IN_MILLISECONDS <= 600000)" // lag between 0 and 10 minutes
 			" OR SESSION_ID = 'MASTER_SESSION_ID'" // or server with MASTER_SESSION_ID
 			" ) "
+			"AND SERVER_ID NOT LIKE 'dealistatistics%' " 
 			"AND LAST_UPDATE_TIMESTAMP > NOW() - INTERVAL 180 SECOND" // ignore decommissioned or renamed nodes, see https://github.com/sysown/proxysql/issues/3484
 			" ORDER BY SERVER_ID";
 		mmsd->async_exit_status = mysql_query_start(&mmsd->interr, mmsd->mysql, query);
